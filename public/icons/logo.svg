@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" role="img" aria-labelledby="t d">
+  <title id="t">Panduan Devil's Tears</title><desc id="d">Simbol tebing dan semburan ombak</desc>
+  <g fill="none" stroke="#146b68" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 57c19-30 31-31 49 0 18-25 29-28 44-4"/>
+    <path d="M51 55c7-18 14-29 31-39-4 16 1 25 17 30"/>
+  </g>
+  <circle cx="93" cy="18" r="7" fill="#e9b65f"/>
+  <text x="122" y="35" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#102725">DEVIL'S TEARS</text>
+  <text x="122" y="57" font-family="Arial,sans-serif" font-size="11" letter-spacing="2" fill="#146b68">PANDUAN NUSA LEMBONGAN</text>
+</svg>

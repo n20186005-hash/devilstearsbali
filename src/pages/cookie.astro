@@ -1,0 +1,46 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+---
+<LegalPage title="Pengaturan Cookie" description="Kelola cookie penting, analitik, preferensi dan pemasaran untuk Panduan Devil's Tears.">
+  <p>Kami menggunakan penyimpanan lokal secara terbatas untuk fungsi teknis dan, bila Anda setujui, Google Analytics untuk pengukuran penggunaan. Anda dapat mengubah pilihan kapan saja pada halaman ini.</p>
+  <div class="mt-8 space-y-4" id="cookie-controls">
+    <div class="card p-6"><div class="flex items-center justify-between gap-4"><div><h2 class="!mt-0">Penyimpanan penting</h2><p class="!mt-2">Diperlukan untuk menyimpan pilihan persetujuan pada perangkat Anda. Tidak dapat dinonaktifkan melalui panel ini.</p></div><span class="rounded-full bg-[#dcebe6] px-3 py-1 text-sm font-bold text-[#0a3838]">Selalu aktif</span></div></div>
+    <label class="card flex cursor-pointer items-start justify-between gap-5 p-6"><span><strong class="text-lg">Cookie analitik</strong><span class="mt-2 block leading-7 text-[#55706d]">Mengizinkan Google Analytics mengumpulkan statistik penggunaan untuk membantu memahami halaman yang paling berguna. Analitik tidak dimuat sebelum persetujuan.</span></span><input id="analytics" type="checkbox" class="mt-2 h-5 w-5 accent-[#146b68]" /></label>
+    <label class="card flex cursor-pointer items-start justify-between gap-5 p-6"><span><strong class="text-lg">Cookie preferensi</strong><span class="mt-2 block leading-7 text-[#55706d]">Menyimpan pengaturan situs pada perangkat Anda. Situs saat ini tidak memiliki pengalih bahasa karena seluruh konten memang khusus bahasa Indonesia.</span></span><input id="preferences" type="checkbox" class="mt-2 h-5 w-5 accent-[#146b68]" /></label>
+    <label class="card flex cursor-pointer items-start justify-between gap-5 p-6 opacity-75"><span><strong class="text-lg">Cookie pemasaran</strong><span class="mt-2 block leading-7 text-[#55706d]">Panduan nirlaba ini tidak mengaktifkan iklan terpersonalisasi atau pelacakan pemasaran.</span></span><input id="marketing" type="checkbox" disabled class="mt-2 h-5 w-5" /></label>
+  </div>
+  <h2>Konten pihak ketiga</h2>
+  <p>Peta Google tertanam dimuat sebagai fungsi informasi lokasi. Google dapat menerima data teknis dan menggunakan cookie atau teknologi serupa menurut kebijakannya sendiri. Menolak cookie analitik situs ini tidak menonaktifkan mekanisme pihak ketiga yang melekat pada peta. Anda dapat memilih tidak berinteraksi dengan peta atau menggunakan pengaturan privasi peramban untuk pembatasan tambahan.</p>
+  <h2>Persetujuan dan perubahan pilihan</h2>
+  <p>Menonaktifkan kategori opsional tidak menghalangi akses ke konten utama. Perubahan analitik berlaku untuk pemuatan berikutnya; memuat ulang halaman setelah menyimpan pilihan memastikan keadaan terbaru diterapkan.</p>
+  <div class="mt-7 flex flex-wrap gap-3">
+    <button id="save-cookies" type="button" class="rounded-full bg-[#146b68] px-6 py-3 font-bold text-white">Simpan preferensi</button>
+    <button id="reject-cookies" type="button" class="rounded-full border border-[#102725]/25 px-6 py-3 font-bold text-[#102725]">Tolak semua yang opsional</button>
+  </div>
+  <p id="cookie-status" class="mt-4 min-h-7 text-sm font-semibold text-[#146b68]" aria-live="polite"></p>
+  <script is:inline>
+    (() => {
+      const analytics = document.getElementById('analytics');
+      const preferences = document.getElementById('preferences');
+      const status = document.getElementById('cookie-status');
+      const key = 'dt_cookie_preferences';
+      const read = () => { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (_) { return null; } };
+      if (!(analytics instanceof HTMLInputElement) || !(preferences instanceof HTMLInputElement) || !(status instanceof HTMLElement)) return;
+      const current = read();
+      if (current) {
+        analytics.checked = Boolean(current.analytics);
+        preferences.checked = Boolean(current.preferences);
+      }
+      document.getElementById('save-cookies')?.addEventListener('click', () => {
+        localStorage.setItem(key, JSON.stringify({ necessary: true, analytics: analytics.checked, preferences: preferences.checked, marketing: false }));
+        status.textContent = 'Preferensi tersimpan. Muat ulang halaman agar perubahan analitik diterapkan sepenuhnya.';
+      });
+      document.getElementById('reject-cookies')?.addEventListener('click', () => {
+        analytics.checked = false;
+        preferences.checked = false;
+        localStorage.setItem(key, JSON.stringify({ necessary: true, analytics: false, preferences: false, marketing: false }));
+        status.textContent = 'Semua cookie opsional ditolak.';
+      });
+    })();
+  </script>
+</LegalPage>

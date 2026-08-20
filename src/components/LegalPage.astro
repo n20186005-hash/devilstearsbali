@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from './SiteFooter.astro';
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+---
+<BaseLayout title={`${title} | Panduan Devil's Tears`} description={description}>
+  <header class="border-b border-[#102725]/10 bg-[#edf7f3]">
+    <div class="section-shell flex items-center justify-between py-5">
+      <a href="/" aria-label="Kembali ke beranda"><img src="/icons/logo.svg" alt="Panduan Devil's Tears" class="h-12 w-auto" width="210" height="60" /></a>
+      <a class="rounded-full border border-[#146b68]/30 px-4 py-2 text-sm font-semibold text-[#0a3838]" href="/">Kembali ke panduan</a>
+    </div>
+  </header>
+  <main id="konten" class="section-shell py-16 lg:py-24">
+    <p class="eyebrow">Informasi hukum & privasi</p>
+    <h1 class="section-title mt-4 max-w-4xl">{title}</h1>
+    <p class="mt-5 text-sm font-semibold text-[#55706d]">Terakhir diperbarui: Agustus 2026</p>
+    <article class="prose-copy mt-10 max-w-3xl"><slot /></article>
+  </main>
+  <SiteFooter />
+</BaseLayout>

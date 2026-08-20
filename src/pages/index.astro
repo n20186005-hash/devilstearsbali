@@ -1,0 +1,316 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const title = "Devil's Tears Nusa Lembongan — Panduan Kunjungan Independen";
+const description = "Panduan nirlaba Devil's Tears di Nusa Lembongan: keselamatan tebing, retribusi wisata, transportasi dari bandara dan Sanur, fasilitas, waktu terbaik, peta, FAQ, dan konteks kawasan.";
+const pageUrl = Astro.site ? new URL('/', Astro.site).href : undefined;
+const imageUrl = Astro.site ? new URL('/images/devils-tears-hero.jpg', Astro.site).href : undefined;
+const mapLink = 'https://maps.app.goo.gl/V6nZFxGMZhUdAUtR9';
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: "Devil's Tears",
+  alternateName: 'Pantai Batu Belek',
+  description,
+  ...(imageUrl ? { image: imageUrl } : {}),
+  ...(pageUrl ? { url: pageUrl } : {}),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Nusa Lembongan',
+    addressLocality: 'Jungutbatu',
+    addressRegion: 'Bali',
+    postalCode: '80771',
+    addressCountry: 'ID',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -8.690564991321827,
+    longitude: 115.42770811246407,
+  },
+  openingHoursSpecification: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].map((day) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${day}`,
+    opens: '00:00',
+    closes: '23:59',
+  })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.4',
+    ratingCount: '2868',
+    bestRating: '5',
+  },
+  isAccessibleForFree: false,
+  publicAccess: true,
+  hasMap: mapLink,
+};
+
+const faqs = [
+  { q: "Apakah Devil's Tears buka 24 jam?", a: "Cantuman Google Maps menunjukkan lokasi buka 24 jam. Namun kawasan tebing terbuka jauh lebih aman dinikmati saat terang; jam petugas atau loket retribusi dapat berbeda. Ikuti rambu setempat dan jangan mendekati bibir tebing setelah gelap." },
+  { q: "Berapa biaya masuk Devil's Tears?", a: "Dinas Pariwisata Kabupaten Klungkung mengumumkan retribusi wisata Nusa Lembongan–Nusa Ceningan sebesar Rp25.000 untuk dewasa dan Rp15.000 untuk anak, dengan loket di Devil's Tears. Ini adalah retribusi kawasan pulau, bukan sekadar tiket atraksi ombak." },
+  { q: "Kapan waktu terbaik melihat semburan ombak?", a: "Semburan dipengaruhi gelombang dan pasang, sehingga tidak ada waktu yang menjamin tinggi tertentu. Pilih jam terang dengan cuaca baik dan lihat dari area aman. Menjelang senja populer untuk pemandangan, tetapi keselamatan lebih penting daripada mengejar ombak besar." },
+  { q: "Berapa lama waktu yang sebaiknya disiapkan?", a: "Untuk melihat garis tebing, semburan dan menikmati suasana tanpa terburu-buru, sekitar 45–90 menit cukup bagi kebanyakan pengunjung. Tambahkan waktu jika menggabungkannya dengan Dream Beach atau titik lain di selatan Nusa Lembongan." },
+  { q: "Bisakah bus langsung dari bandara ke Devil's Tears?", a: "Tidak. Nusa Lembongan terpisah laut dari Bali. Dari Bandara I Gusti Ngurah Rai, lanjutkan perjalanan darat menuju pelabuhan keberangkatan, paling umum Sanur, kemudian menyeberang dengan kapal dan memakai transportasi lokal di pulau." },
+  { q: "Apakah lokasi cocok untuk anak kecil atau pengunjung dengan mobilitas terbatas?", a: "Kawasan tebing memiliki permukaan berbatu, percikan air dan bagian yang tidak rata. Keluarga perlu pengawasan dekat pada anak. Pengunjung dengan kebutuhan mobilitas sebaiknya menilai kondisi jalur saat tiba dan tidak memaksakan mendekati titik pandang yang sulit." },
+  { q: "Apakah aman berdiri dekat tepi untuk berfoto?", a: "Tidak disarankan. Ombak besar dapat datang tiba-tiba dan permukaan dapat licin. Dinas Pariwisata Klungkung melakukan evaluasi papan peringatan di Devil's Tears; patuhi pagar, rambu dan arahan petugas." },
+  { q: "Apakah ada toilet, makanan dan tempat parkir?", a: "Fasilitas dasar tersedia di koridor kunjungan dan kawasan sekitar, tetapi jumlah, kondisi dan jam operasional dapat berubah. Panduan ini menyarankan mengandalkan kategori fasilitas—toilet umum, warung, minimarket dan area parkir—bukan satu usaha tertentu." },
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+<BaseLayout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  <SiteHeader />
+
+  <main id="konten">
+    <section class="relative min-h-[88svh] overflow-hidden bg-[#0a3838] text-white">
+      <img src="/images/devils-tears-hero.jpg" alt="Ombak menghantam tebing di Devil's Tears, Nusa Lembongan" width="3264" height="2448" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover" />
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,31,31,.88),rgba(5,31,31,.48)_58%,rgba(5,31,31,.22)),linear-gradient(0deg,rgba(5,31,31,.72),transparent_48%)]"></div>
+      <div class="section-shell relative flex min-h-[88svh] items-end pb-16 pt-36 lg:pb-24">
+        <div class="max-w-4xl">
+          <p class="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[.2em] backdrop-blur">Panduan independen · Nusa Lembongan</p>
+          <h1 class="font-[Georgia] text-[clamp(4rem,11vw,9rem)] leading-[.78] tracking-[-.065em]">Devil's<br/><span class="text-[#f0c272]">Tears</span></h1>
+          <p class="mt-8 max-w-2xl text-lg leading-8 text-[#e4f0ec]">Panggung alam tempat Samudra Hindia meledak menjadi semburan putih, kabut air dan kadang pelangi—indah untuk diamati, tetapi selalu menuntut jarak aman dari tebing.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#kunjungan" class="rounded-full bg-[#f3ead8] px-6 py-3 text-sm font-extrabold text-[#102725]">Rencanakan kunjungan</a>
+            <a href={mapLink} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-bold backdrop-blur">Buka Google Maps ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#f3ead8] py-5">
+      <div class="section-shell grid gap-3 text-sm font-semibold sm:grid-cols-2 lg:grid-cols-4">
+        <div><span class="block text-xs uppercase tracking-widest text-[#6a736d]">Lokasi</span>Jungutbatu, Nusa Lembongan</div>
+        <div><span class="block text-xs uppercase tracking-widest text-[#6a736d]">Status jam</span>Tercantum 24 jam; utamakan siang</div>
+        <div><span class="block text-xs uppercase tracking-widest text-[#6a736d]">Retribusi kawasan</span>Rp25.000 dewasa · Rp15.000 anak</div>
+        <div><span class="block text-xs uppercase tracking-widest text-[#6a736d]">Saran durasi</span>45–90 menit</div>
+      </div>
+    </section>
+
+    <section id="kenali" class="py-20 lg:py-28">
+      <div class="section-shell grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+        <div class="lg:sticky lg:top-10">
+          <p class="eyebrow">Kenali tempatnya</p>
+          <h2 class="section-title mt-4">Mengapa ombaknya tampak seperti “air mata”?</h2>
+        </div>
+        <div class="prose-copy text-lg">
+          <p>Devil’s Tears berada di tepian selatan Nusa Lembongan, menghadap langsung ke energi Samudra Hindia. Ombak yang masuk ke lekukan dan rongga garis pantai berbatu dipaksa naik sebagai semburan, lalu jatuh kembali menjadi kabut air. Sumber pariwisata nasional menjelaskan bentuk gerakan inilah yang melahirkan nama “Devil’s Tears”.</p>
+          <p>Warna batu gelap, buih putih dan cahaya matahari menciptakan kontras yang sangat khas. Pada sudut cahaya yang tepat, butiran air di udara dapat memunculkan pelangi. Fenomena ini tidak berlangsung dengan kekuatan yang sama sepanjang hari karena sangat bergantung pada gelombang, angin dan pasang.</p>
+          <div class="card mt-8 border-l-4 border-l-[#df6b4f] p-7">
+            <p class="!mt-0 text-base font-semibold text-[#102725]">Catatan cerita & legenda</p>
+            <p class="text-base">Kami tidak menemukan legenda lokal terverifikasi dalam sumber pemerintah yang kami telaah. Karena itu, panduan ini tidak mengarang kisah mistis untuk menjelaskan nama tempat. Yang dapat didokumentasikan dengan jelas adalah penjelasan visual tentang semburan ombak yang menyerupai “air mata”.</p>
+          </div>
+          <p>Dalam dokumen dan berita resmi Kabupaten Klungkung, tempat ini juga disebut <strong>Pantai Batu Belek (Devil Tears)</strong>. Nama lokal tersebut penting karena menunjukkan bahwa Devil’s Tears bukan sekadar label wisata di peta, tetapi bagian dari bentang pesisir Desa Lembongan yang dikelola dalam konteks destinasi daerah.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-[#102725]/10 bg-white py-20 lg:py-28">
+      <div class="section-shell">
+        <p class="eyebrow">Jejak pengelolaan & budaya</p>
+        <h2 class="section-title mt-4 max-w-4xl">Dari Pantai Batu Belek menuju salah satu ruang publik wisata utama Lembongan.</h2>
+        <p class="mt-6 max-w-3xl text-lg leading-8 text-[#506561]">Garis waktu ini merangkum catatan pemerintah yang dapat diverifikasi. Tanggal di bawah adalah tonggak historis, bukan jaminan bahwa program, fasilitas atau jadwal lama masih berjalan sekarang.</p>
+        <div class="mt-12 grid gap-4 lg:grid-cols-4">
+          <article class="card p-6"><p class="text-sm font-black text-[#df6b4f]">2019</p><h3 class="mt-3 text-xl font-bold">Nama lokal tercatat resmi</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Pemerintah Kabupaten Klungkung menyebut kawasan ini Pantai Batu Belek (Devil Tears) dan membahas penataan destinasi, termasuk konsep area masuk, parkir, jalur, toilet dan ruang kuliner.</p></article>
+          <article class="card p-6"><p class="text-sm font-black text-[#df6b4f]">2023</p><h3 class="mt-3 text-xl font-bold">Fasilitas & pengamanan</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Laporan kinerja Dinas Pariwisata mencatat pengembangan fasilitas di Pantai Batu Belek, termasuk pagar dan gerbang kendali, sebagai bagian dari penataan destinasi yang ramai dikunjungi.</p></article>
+          <article class="card p-6"><p class="text-sm font-black text-[#df6b4f]">2023</p><h3 class="mt-3 text-xl font-bold">Ruang pertunjukan lokal</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Dokumen yang sama mencatat dimulainya program “Warna Destinasi” di Devil Tears dengan keterlibatan kelompok seni dan sekolah lokal. Kami tidak menganggap jadwal historis itu masih berlaku pada 2026.</p></article>
+          <article class="card p-6"><p class="text-sm font-black text-[#df6b4f]">2024</p><h3 class="mt-3 text-xl font-bold">Nusa Penida Festival</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Pembukaan festival di Devil Tears diawali Upacara Pekelem dan Tari Rejang Renteng oleh 1.000 penari dari Lembongan dan Jungut Batu—catatan budaya yang memperluas makna tempat di luar panorama ombak.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 lg:py-28">
+      <div class="section-shell grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+        <div><p class="eyebrow">Cara membaca fenomena</p><h2 class="section-title mt-4">Semburan, kabut air, lalu pelangi.</h2></div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="card p-6"><span class="text-xs font-black uppercase tracking-widest text-[#146b68]">01 · Ombak masuk</span><p class="mt-4 leading-7 text-[#55706d]">Gelombang Samudra Hindia menghantam lekukan dan rongga pada garis pantai berbatu. Energinya tidak berhenti tepat di bibir tebing.</p></div>
+          <div class="card p-6"><span class="text-xs font-black uppercase tracking-widest text-[#146b68]">02 · Air terdorong naik</span><p class="mt-4 leading-7 text-[#55706d]">Air dan udara yang terdesak menghasilkan semburan serta kabut halus. Tingginya berubah mengikuti set gelombang, pasang, angin dan bentuk datangnya ombak.</p></div>
+          <div class="card p-6"><span class="text-xs font-black uppercase tracking-widest text-[#146b68]">03 · Cahaya bertemu kabut</span><p class="mt-4 leading-7 text-[#55706d]">Tetes air yang melayang dapat membiaskan cahaya dan menghasilkan pelangi ketika sudut matahari sesuai. Efek ini alami tetapi tidak dapat dijadwalkan.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24">
+      <div class="section-shell grid gap-4 lg:grid-cols-[1.25fr_.75fr]">
+        <figure class="overflow-hidden rounded-[2rem] bg-[#102725]">
+          <img src="/images/devils-tears-landscape.jpg" alt="Bentang pesisir Devil's Tears dengan batu dan laut terbuka" width="3648" height="2736" loading="lazy" class="h-full min-h-[420px] w-full object-cover" />
+        </figure>
+        <figure class="overflow-hidden rounded-[2rem] bg-[#102725]">
+          <img src="/images/devils-tears-coast.jpeg" alt="Semburan laut di garis pantai Devil's Tears" width="2048" height="1356" loading="lazy" class="h-full min-h-[420px] w-full object-cover" />
+        </figure>
+      </div>
+    </section>
+
+    <section id="kunjungan" class="bg-[#0a3838] py-20 text-white lg:py-28">
+      <div class="section-shell">
+        <p class="text-xs font-bold uppercase tracking-[.18em] text-[#78bcb1]">Rencana kunjungan</p>
+        <h2 class="section-title mt-4 max-w-4xl">Datang untuk lanskapnya. Pulang tanpa mengambil risiko yang tidak perlu.</h2>
+        <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article class="rounded-[1.6rem] bg-white/8 p-6 ring-1 ring-white/12"><p class="text-sm font-bold text-[#f0c272]">01 · Waktu terbaik</p><h3 class="mt-3 text-xl font-bold">Terang & cuaca stabil</h3><p class="mt-3 leading-7 text-[#bdd0cb]">Pilih pagi hingga menjelang senja. Indonesia Travel menggambarkan musim kering Bali umumnya April–Oktober, tetapi pola musim dapat bergeser dan gelombang laut tetap dapat berubah cepat.</p></article>
+          <article class="rounded-[1.6rem] bg-white/8 p-6 ring-1 ring-white/12"><p class="text-sm font-bold text-[#f0c272]">02 · Durasi</p><h3 class="mt-3 text-xl font-bold">45–90 menit</h3><p class="mt-3 leading-7 text-[#bdd0cb]">Cukup untuk berjalan di titik pandang, membaca kondisi ombak dan berfoto tanpa terburu-buru. Tambahkan waktu bila digabung dengan pesisir selatan.</p></article>
+          <article class="rounded-[1.6rem] bg-white/8 p-6 ring-1 ring-white/12"><p class="text-sm font-bold text-[#f0c272]">03 · Alas kaki</p><h3 class="mt-3 text-xl font-bold">Sol berdaya cengkeram</h3><p class="mt-3 leading-7 text-[#bdd0cb]">Batu dan permukaan jalur dapat tidak rata, basah atau licin oleh semprotan. Sandal licin dan berjalan terlalu dekat tepi tidak dianjurkan.</p></article>
+          <article class="rounded-[1.6rem] bg-white/8 p-6 ring-1 ring-white/12"><p class="text-sm font-bold text-[#f0c272]">04 · Keselamatan</p><h3 class="mt-3 text-xl font-bold">Hormati rambu & pagar</h3><p class="mt-3 leading-7 text-[#bdd0cb]">Pemerintah daerah melakukan evaluasi papan peringatan di Devil’s Tears. Jangan turun ke batu yang terkena ombak demi foto atau semburan yang lebih dekat.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 lg:py-28">
+      <div class="section-shell grid gap-10 lg:grid-cols-[.85fr_1.15fr]">
+        <div>
+          <p class="eyebrow">Tiket / biaya</p>
+          <h2 class="section-title mt-4">Retribusi untuk kawasan Nusa Lembongan–Ceningan</h2>
+          <p class="mt-6 max-w-xl leading-8 text-[#4a625f]">Pengumuman resmi Dinas Pariwisata Kabupaten Klungkung menyebut loket retribusi Nusa Lembongan–Nusa Ceningan berada di Devil’s Tears. Ini memperbarui artikel wisata lama yang masih menyebut Devil’s Tears gratis.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="card p-7"><p class="text-sm font-bold uppercase tracking-widest text-[#146b68]">Dewasa</p><p class="mt-3 font-[Georgia] text-5xl font-bold">Rp25.000</p><p class="mt-4 leading-7 text-[#55706d]">per orang, sesuai pengumuman pemerintah daerah untuk retribusi wisata pulau.</p></div>
+          <div class="card p-7"><p class="text-sm font-bold uppercase tracking-widest text-[#146b68]">Anak</p><p class="mt-3 font-[Georgia] text-5xl font-bold">Rp15.000</p><p class="mt-4 leading-7 text-[#55706d]">per orang. Pembayaran di loket disarankan tunai; opsi daring pemerintah juga disebut tersedia.</p></div>
+          <div class="sm:col-span-2 rounded-[1.5rem] bg-[#f3ead8] p-6 text-sm leading-7 text-[#4d5b57]"><strong>Periksa sebelum berangkat.</strong> Retribusi, metode pembayaran, jam loket dan kategori usia dapat berubah. Nilai di atas mengikuti pengumuman resmi yang ditemukan saat penyusunan panduan, bukan jaminan harga permanen.</div>
+          <div class="sm:col-span-2 rounded-[1.5rem] border border-[#df6b4f]/25 bg-[#fff7ef] p-6 text-sm leading-7 text-[#4d5b57]"><strong>Bedakan tiga hal:</strong> “tercantum buka 24 jam” adalah status lokasi di peta, bukan janji loket atau petugas berjaga 24 jam; “retribusi kawasan” berlaku untuk kunjungan wisata Lembongan–Ceningan; dan artikel lama yang menyebut gratis dapat sudah tidak sesuai dengan pengumuman pemerintah yang lebih baru.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="transportasi" class="bg-[#f3ead8] py-20 lg:py-28">
+      <div class="section-shell">
+        <p class="eyebrow">Transportasi terperinci</p>
+        <h2 class="section-title mt-4 max-w-4xl">Perjalanan selalu memiliki dua tahap: darat di Bali, lalu laut ke Lembongan.</h2>
+        <div class="mt-12 grid gap-5 lg:grid-cols-3">
+          <article class="rounded-[1.7rem] bg-white p-7"><span class="text-3xl">✈</span><h3 class="mt-5 text-2xl font-bold">Dari bandara</h3><ol class="mt-5 space-y-4 text-sm leading-7 text-[#506561]"><li><b>1.</b> Tiba di Bandara Internasional I Gusti Ngurah Rai (DPS).</li><li><b>2.</b> Lanjutkan dengan taksi berizin, kendaraan sewa dengan pengemudi, atau transportasi aplikasi yang diizinkan menuju pelabuhan keberangkatan.</li><li><b>3.</b> Sanur adalah titik paling umum; dari sana kapal cepat ke Nusa Lembongan sekitar 30–45 menit menurut Indonesia Travel.</li><li><b>4.</b> Setelah mendarat, lanjutkan dengan kendaraan lokal menuju Devil’s Tears.</li></ol></article>
+          <article class="rounded-[1.7rem] bg-white p-7"><span class="text-3xl">▰</span><h3 class="mt-5 text-2xl font-bold">Bus / angkutan umum</h3><p class="mt-5 text-sm leading-7 text-[#506561]">Tidak ada bus yang dapat membawa penumpang langsung ke Devil’s Tears karena ada penyeberangan laut. Angkutan umum darat dapat membantu mencapai koridor Denpasar–Sanur, tetapi tahap akhir menuju pelabuhan sering membutuhkan taksi atau angkutan lokal. Hindari merencanakan koneksi terlalu ketat karena jadwal laut bergantung kondisi.</p></article>
+          <article class="rounded-[1.7rem] bg-white p-7"><span class="text-3xl">≈</span><h3 class="mt-5 text-2xl font-bold">Kapal & alternatif pelabuhan</h3><p class="mt-5 text-sm leading-7 text-[#506561]">Kapal cepat dari Sanur merupakan pilihan yang paling umum dan memiliki estimasi sekitar 30–45 menit. Sumber pariwisata nasional juga menyebut keberangkatan dari Serangan, Benoa dan Banjar Bias Kusamba, sementara kapal tradisional dapat memakan waktu lebih lama. Konfirmasi jadwal pada hari perjalanan.</p></article>
+        </div>
+        <div class="mt-5 grid gap-5 lg:grid-cols-2">
+          <article class="rounded-[1.7rem] bg-[#102725] p-7 text-white"><h3 class="text-2xl font-bold">Taksi / kendaraan dengan pengemudi</h3><p class="mt-4 leading-7 text-[#c9dbd6]">Di Bali utama, gunakan layanan resmi untuk menuju pelabuhan. Di Nusa Lembongan, pilihan umum adalah kendaraan lokal, buggy atau transportasi dengan pengemudi. Tanyakan tarif dan titik turun sebelum berangkat; panduan ini tidak mengarahkan ke operator tertentu.</p></article>
+          <article class="rounded-[1.7rem] bg-[#102725] p-7 text-white"><h3 class="text-2xl font-bold">Sepeda motor</h3><p class="mt-4 leading-7 text-[#c9dbd6]">Sepeda motor lazim digunakan untuk mobilitas pulau, tetapi hanya cocok bagi pengendara berpengalaman, berlisensi sesuai ketentuan dan memakai helm. Jalan dapat sempit atau tidak rata. Jangan menjadikan sewa motor sebagai pilihan default bila tidak nyaman berkendara.</p></article>
+        </div>
+        <div class="mt-6 rounded-[1.7rem] border border-[#102725]/10 bg-white/70 p-7">
+          <h3 class="text-xl font-bold">Tentang koneksi bandara–Sanur</h3>
+          <p class="mt-3 leading-7 text-[#506561]">Sumber pariwisata nasional menempatkan Sanur sekitar 15 km dari Bandara I Gusti Ngurah Rai dan menyebut taksi maupun transportasi daring sebagai pilihan menuju Sanur. Waktu tempuh sangat dipengaruhi lalu lintas, jadi panduan ini sengaja tidak menjanjikan durasi transfer darat yang presisi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 lg:py-28">
+      <div class="section-shell">
+        <div class="grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
+          <div><p class="eyebrow">Fasilitas yang paling dicari</p><h2 class="section-title mt-4">Apa yang tersedia, dan apa yang sebaiknya tidak diasumsikan.</h2></div>
+          <p class="max-w-2xl text-lg leading-8 text-[#506561]">Kami sengaja tidak menyebut nama toko, restoran, hotel atau operator. Fasilitas dirangkum berdasarkan jenis agar tetap netral dan berguna meskipun usaha di sekitar berubah.</p>
+        </div>
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="card p-6"><b>WC / toilet</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Toilet termasuk dalam penataan fasilitas pemerintah di kawasan ini. Periksa ketersediaan, kebersihan, akses dan jam layanan saat tiba.</p></div>
+          <div class="card p-6"><b>Parkir</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Area parkir termasuk dalam penataan pemerintah di kawasan Pantai Batu Belek. Kapasitas, tarif dan pengaturan operasional saat ini perlu dilihat di lokasi.</p></div>
+          <div class="card p-6"><b>Makan & minum</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Warung, kedai ringan dan pilihan makanan lokal tersedia di kawasan wisata sekitar. Bawa air minum sendiri.</p></div>
+          <div class="card p-6"><b>Akomodasi</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Pilihan umum di Lembongan meliputi homestay, rumah tamu, vila dan penginapan tepi pantai.</p></div>
+          <div class="card p-6"><b>Minimarket / kebutuhan harian</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Toko kebutuhan harian dan minimarket lebih mudah ditemukan di area permukiman dan koridor utama pulau.</p></div>
+          <div class="card p-6"><b>Bahan bakar</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Pasokan di pulau tidak seluas Bali utama. Isi bahan bakar sebelum menjelajah sisi selatan bila menggunakan kendaraan.</p></div>
+          <div class="card p-6"><b>Pengisian kendaraan listrik</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Jangan mengandalkan stasiun pengisian publik sebagai fasilitas utama lokasi. Konfirmasi pengisian dengan penyedia kendaraan atau penginapan.</p></div>
+          <div class="card p-6"><b>Sinyal & pembayaran</b><p class="mt-3 text-sm leading-6 text-[#55706d]">Bawa uang tunai secukupnya sebagai cadangan. Kualitas sinyal dan penerimaan pembayaran digital dapat berbeda antar titik.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="parkir" class="border-y border-[#102725]/10 bg-white py-16 lg:py-20">
+      <div class="section-shell grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-start">
+        <div><p class="eyebrow">Informasi parkir</p><h2 class="section-title mt-4">Datang dengan kendaraan tanpa menganggap parkir selalu sama.</h2></div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="card p-6"><h3 class="font-bold">Yang dapat diverifikasi</h3><p class="mt-3 leading-7 text-[#55706d]">Dokumen penataan Pemerintah Kabupaten Klungkung memasukkan parkir sebagai bagian fasilitas kawasan Pantai Batu Belek/Devil Tears. Ini mendukung adanya fungsi parkir dalam kawasan wisata.</p></div>
+          <div class="card p-6"><h3 class="font-bold">Yang tidak kami tetapkan</h3><p class="mt-3 leading-7 text-[#55706d]">Kami tidak mencantumkan kapasitas, tarif parkir, jam penjagaan atau lokasi petak tertentu karena rincian lapangan dapat berubah. Ikuti papan resmi dan arahan petugas saat tiba.</p></div>
+          <div class="md:col-span-2 rounded-[1.5rem] bg-[#f3ead8] p-6 text-sm leading-7 text-[#4d5b57]"><strong>Catatan aksesibilitas:</strong> jangan menganggap seluruh jalur tebing bebas hambatan. Permukaan berbatu, kemiringan, percikan dan penataan pagar dapat membatasi akses kursi roda atau alat bantu. Nilai rute aktual di tempat dan prioritaskan titik pandang yang stabil.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#102725] py-20 text-white lg:py-28">
+      <div class="section-shell grid gap-12 lg:grid-cols-2">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[.18em] text-[#78bcb1]">Keselamatan pesisir</p>
+          <h2 class="section-title mt-4">Semburan yang indah berasal dari energi laut yang sama yang membuat tebing berbahaya.</h2>
+        </div>
+        <div class="space-y-4">
+          <div class="rounded-[1.5rem] border border-white/10 p-6"><b>Jangan melewati pagar atau rambu.</b><p class="mt-2 leading-7 text-[#bdd0cb]">Papan peringatan di Devil’s Tears termasuk dalam inspeksi keselamatan Pemerintah Kabupaten Klungkung.</p></div>
+          <div class="rounded-[1.5rem] border border-white/10 p-6"><b>Jangan menilai ombak dari beberapa menit yang tenang.</b><p class="mt-2 leading-7 text-[#bdd0cb]">Set gelombang dapat datang tidak seragam. Tempat yang tampak kering dapat terkena semprotan atau sapuan air.</p></div>
+          <div class="rounded-[1.5rem] border border-white/10 p-6"><b>Lindungi anak dan barang elektronik.</b><p class="mt-2 leading-7 text-[#bdd0cb]">Pegang anak di area terbuka, simpan ponsel dengan aman, dan jangan membelakangi laut saat berdiri dekat area yang menerima percikan.</p></div>
+          <div class="rounded-[1.5rem] border border-white/10 p-6"><b>Batalkan bila kondisi memburuk.</b><p class="mt-2 leading-7 text-[#bdd0cb]">Hujan, angin kuat, permukaan sangat licin atau instruksi penutupan setempat adalah alasan cukup untuk menjauh.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 lg:py-28">
+      <div class="section-shell">
+        <p class="eyebrow">Kuliner sekitar</p>
+        <h2 class="section-title mt-4 max-w-4xl">Pilih berdasarkan jenis, bukan promosi tempat tertentu.</h2>
+        <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div class="card p-6"><h3 class="font-bold">Warung masakan Indonesia</h3><p class="mt-3 text-sm leading-6 text-[#55706d]">Nasi, mi, lauk rumahan dan hidangan Bali; cocok untuk pilihan praktis sebelum atau sesudah kunjungan.</p></div>
+          <div class="card p-6"><h3 class="font-bold">Hidangan laut</h3><p class="mt-3 text-sm leading-6 text-[#55706d]">Ikan dan hasil laut panggang umum ditemukan di pulau. Tanyakan harga sebelum memesan bila dihitung berdasarkan berat.</p></div>
+          <div class="card p-6"><h3 class="font-bold">Kafe & sarapan ringan</h3><p class="mt-3 text-sm leading-6 text-[#55706d]">Pilihan roti, kopi, buah dan menu ringan tersedia di kawasan permukiman wisata.</p></div>
+          <div class="card p-6"><h3 class="font-bold">Vegetarian / nabati</h3><p class="mt-3 text-sm leading-6 text-[#55706d]">Pilihan berbasis sayur, tempe, tahu dan buah cukup umum; jelaskan kebutuhan alergi secara spesifik.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#e1eee9] py-20 lg:py-28">
+      <div class="section-shell">
+        <p class="eyebrow">Destinasi sekitar</p>
+        <h2 class="section-title mt-4">Lihat Devil’s Tears sebagai bagian dari bentang Nusa Lembongan, bukan titik tunggal.</h2>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Pesisir selatan</p><h3 class="mt-3 text-2xl font-bold">Dream Beach</h3><p class="mt-3 leading-7 text-[#55706d]">Pantai yang juga menghadap Samudra Hindia. Cocok dipadukan karena berada pada sisi pulau yang sama; kondisi renang harus dinilai di tempat.</p></article>
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Penghubung pulau</p><h3 class="mt-3 text-2xl font-bold">Yellow Bridge</h3><p class="mt-3 leading-7 text-[#55706d]">Jembatan ikonik yang menghubungkan Nusa Lembongan dan Nusa Ceningan; berbagi ruang dengan sepeda motor sehingga pejalan kaki perlu waspada.</p></article>
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Ekosistem</p><h3 class="mt-3 text-2xl font-bold">Mangrove Nusa Lembongan</h3><p class="mt-3 leading-7 text-[#55706d]">Bentang bakau di sisi utara pulau yang memberi kontras ekologis dengan tebing laut terbuka di selatan.</p></article>
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Teluk</p><h3 class="mt-3 text-2xl font-bold">Mushroom Bay</h3><p class="mt-3 leading-7 text-[#55706d]">Salah satu kawasan pendaratan dan pantai di Nusa Lembongan, berguna sebagai orientasi perjalanan laut dan transportasi lokal.</p></article>
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Panorama</p><h3 class="mt-3 text-2xl font-bold">Panorama Point</h3><p class="mt-3 leading-7 text-[#55706d]">Titik tinggi untuk membaca bentuk pulau dan pesisir dari sudut yang berbeda sebelum atau sesudah menjelajah.</p></article>
+          <article class="rounded-[1.6rem] bg-white p-7"><p class="text-xs font-bold uppercase tracking-widest text-[#146b68]">Pulau tetangga</p><h3 class="mt-3 text-2xl font-bold">Nusa Ceningan</h3><p class="mt-3 leading-7 text-[#55706d]">Lanjutan alami perjalanan melalui Yellow Bridge, dengan karakter pesisir dan titik pandang tersendiri. Sisakan waktu terpisah bila ingin menjelajah.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="peta" class="py-20 lg:py-28">
+      <div class="section-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-center">
+        <div>
+          <p class="eyebrow">Peta</p>
+          <h2 class="section-title mt-4">Devil’s Tears, Jungutbatu</h2>
+          <p class="mt-6 leading-8 text-[#506561]">Peta tertanam menggunakan antarmuka berbahasa Indonesia. Gunakan tautan Google Maps untuk navigasi langsung dan selalu ikuti pengalihan jalan atau petunjuk lokal di lapangan.</p>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex rounded-full bg-[#146b68] px-6 py-3 text-sm font-bold text-white">Buka navigasi ↗</a>
+        </div>
+        <div class="overflow-hidden rounded-[2rem] border border-[#102725]/10 shadow-2xl shadow-[#102725]/10">
+          <iframe title="Peta Devil's Tears di Nusa Lembongan" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6819.851222807707!2d115.42770811246407!3d-8.690564991321827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd26db47c187435%3A0xe913833037b700!2sDevil's%20Tears!5e1!3m2!1sid!2sid!4v1787144881648!5m2!1sid!2sid" width="600" height="520" style="border:0;width:100%;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="bg-[#f3ead8] py-20 lg:py-28">
+      <div class="section-shell grid gap-12 lg:grid-cols-[.65fr_1.35fr]">
+        <div><p class="eyebrow">Pertanyaan umum</p><h2 class="section-title mt-4">Pertanyaan sebelum berangkat</h2><p class="mt-5 leading-7 text-[#5a6964]">Jawaban dibuat ringkas, konservatif dan berorientasi keselamatan. Untuk jadwal transportasi, cuaca laut dan retribusi terbaru, periksa kanal resmi sebelum berangkat.</p></div>
+        <div class="space-y-3">
+          {faqs.map(({q,a}) => <details class="group rounded-[1.35rem] bg-white p-6"><summary class="cursor-pointer list-none pr-8 font-bold marker:hidden">{q}<span class="float-right text-[#146b68] group-open:rotate-45">＋</span></summary><p class="mt-4 leading-7 text-[#55706d]">{a}</p></details>)}
+        </div>
+      </div>
+    </section>
+
+    <section id="sumber" class="py-20">
+      <div class="section-shell">
+        <p class="eyebrow">Sumber editorial</p>
+        <h2 class="section-title mt-4 max-w-3xl">Informasi dipisahkan antara fakta resmi, data peta, dan saran editorial.</h2>
+        <div class="mt-10 grid gap-4 lg:grid-cols-2">
+          <div class="card p-7"><h3 class="font-bold">Dinas Pariwisata Klungkung · Retribusi</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Pengumuman resmi tarif Nusa Lembongan–Nusa Ceningan dan lokasi loket di Devil’s Tears.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://dispar.klungkungkab.go.id/entrance-fees-for-tourists-visiting-nusa-penida-island-and-nusa-lembongan-nusa-ceningan-islands/">Baca pengumuman resmi ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Dinas Pariwisata Klungkung · Keselamatan</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Catatan pemeriksaan papan peringatan di Devil’s Tear dan destinasi lain di Nusa Lembongan.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://dispar.klungkungkab.go.id/dinas-pariwisata-lakukan-pengecekan-papan-peringatan-di-sejumlah-dtw-di-nusa-lembongan/">Baca catatan resmi ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Kementerian Pariwisata Republik Indonesia · Indonesia Travel</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Rujukan konteks Devil’s Tears, karakter Nusa Lembongan dan pilihan penyeberangan dari Bali.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://www.indonesia.travel/id/id/home">Buka situs resmi ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Pemerintah Provinsi Bali</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Rujukan regional untuk konteks pariwisata Bali dan Nusa Lembongan.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://www.baliprov.go.id/">Buka situs resmi ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Google Maps</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Rujukan lokasi, koordinat, status jam tercantum dan agregat ulasan. Nilai dapat berubah setelah halaman ini diterbitkan.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href={mapLink}>Buka peta ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Catatan Pantai Batu Belek · Pemkab Klungkung</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Rujukan nama lokal Pantai Batu Belek (Devil Tears) dan konteks penataan kawasan.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://klungkungkab.go.id/berita/detail/devil-tears-mulai-dirilik-banyak-investor">Baca arsip resmi ↗</a></div>
+          <div class="card p-7"><h3 class="font-bold">Nusa Penida Festival 2024 · Pemkab Klungkung</h3><p class="mt-3 text-sm leading-7 text-[#55706d]">Rujukan sejarah budaya: pembukaan festival di Devil Tears dengan Upacara Pekelem dan Tari Rejang Renteng.</p><a class="mt-3 inline-block text-sm font-bold text-[#146b68] underline" target="_blank" rel="noopener noreferrer" href="https://www.klungkungkab.go.id/berita/detail/seribu-penari-rejang-renteng-meriahkan-pembukaan-nusa-penida-festival-2024">Baca arsip resmi ↗</a></div>
+        </div>
+        <div class="mt-6 rounded-[1.5rem] border border-[#102725]/10 p-6 text-sm leading-7 text-[#55706d]">
+          <b>Kredit foto.</b> Foto Devil’s Tears dalam halaman ini berasal dari Wikimedia Commons dan disimpan lokal untuk performa: karya pengguna Wikimedia/Wikivoyage Burmesedays (CC BY-SA) serta Arnas Goldberg (CC BY). Hak tetap milik fotografer; lisensi sumber wajib dipertahankan bila aset digunakan ulang di luar proyek ini.
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
