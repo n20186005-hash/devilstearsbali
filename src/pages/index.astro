@@ -2,8 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_NAME } from '../data/site';
 
-const title = "Devil's Tears Nusa Lembongan — Panduan Kunjungan Independen";
+const title = SITE_NAME;
 const description = "Panduan nirlaba Devil's Tears di Nusa Lembongan: keselamatan tebing, retribusi wisata, transportasi dari bandara dan Sanur, fasilitas, waktu terbaik, peta, FAQ, dan konteks kawasan.";
 const pageUrl = Astro.site ? new URL('/', Astro.site).href : undefined;
 const imageUrl = Astro.site ? new URL('/images/devils-tears-hero.jpg', Astro.site).href : undefined;

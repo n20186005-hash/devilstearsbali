@@ -1,0 +1,9 @@
+# HSTS + keamanan dasar (memaksa HTTPS di level browser, melengkapi canonical).
+# Redirect domain-level http->https dan www->apex ditangani di dashboard Cloudflare
+# (Always Use HTTPS + Redirect Rules), karena aset statis Workers tidak mendukung
+# redirect absolute di file ini.
+/*
+	Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	Referrer-Policy: strict-origin-when-cross-origin

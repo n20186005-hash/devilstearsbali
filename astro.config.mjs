@@ -3,8 +3,9 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Satu-satunya tempat untuk mengatur domain produksi.
-// Biarkan kosong sampai domain final tersedia; build tetap berjalan tanpa URL palsu.
-const SITE_URL = '';
+// Diisi agar Astro menghasilkan canonical, og:url absolut, gambar OG absolut,
+// serta sitemap-index.xml. Kosongkan hanya saat belum ada domain final.
+const SITE_URL = 'https://devilstearsbali.com';
 const site = SITE_URL.trim() || undefined;
 
 export default defineConfig({
