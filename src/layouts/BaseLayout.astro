@@ -12,17 +12,17 @@ interface Props {
 const {
   title,
   description,
-  image = '/images/devils-tears-hero.jpg',
+  image = '/images/devils-tears-coast.webp',
   robots = 'index,follow,max-image-preview:large',
 } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const canonical = Astro.site && !robots.includes('noindex') ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const absoluteImage = Astro.site ? new URL(image, Astro.site).href : undefined;
 ---
 <!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0a3838" />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
@@ -41,25 +41,12 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).href : undefined;
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-    <script is:inline>
-      (() => {
-        const measurementId = 'G-HXM22WWPKP';
-        let prefs = null;
-        try { prefs = JSON.parse(localStorage.getItem('dt_cookie_preferences') || 'null'); } catch (_) {}
-        if (!prefs?.analytics) return;
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){ window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', measurementId, { anonymize_ip: true });
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
-        document.head.appendChild(script);
-      })();
-    </script>
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
   </head>
   <body>
     <a class="skip-link" href="#konten">Lewati ke konten</a>
     <slot />
+    <script is:inline src="/consent.js"></script>
   </body>
 </html>
