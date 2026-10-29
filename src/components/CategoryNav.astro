@@ -1,0 +1,15 @@
+---
+import { CATEGORIES } from '../data/topics';
+const current = Astro.url.pathname;
+---
+<nav aria-label="Kategori panduan" class="cat-strip bg-[#0c302f] text-[#dcebe6]">
+  <div class="section-shell cat-strip-inner">
+    {CATEGORIES.map((c) => {
+      const href = `/${c.key}/`;
+      const active = current === href || current.startsWith(href);
+      return (
+        <a class:list={['cat-link', { 'is-active': active }]} href={href}>{c.label}</a>
+      );
+    })}
+  </div>
+</nav>

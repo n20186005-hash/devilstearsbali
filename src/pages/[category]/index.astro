@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import {
+  CATEGORIES,
+  type TopicCategory,
+  categoryMeta,
+  topicsByCategory,
+  topicUrl,
+} from '../../data/topics';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({
+    params: { category: c.key },
+    props: { category: c.key as TopicCategory },
+  }));
+}
+
+const { category } = Astro.props;
+const meta = categoryMeta(category);
+const topics = topicsByCategory(category);
+---
+
+<BaseLayout title={`${meta.title} — Panduan Lengkap`} description={meta.blurb}>
+  <SiteHeader />
+  <main id="konten">
+    <section class="relative overflow-hidden bg-[#0a3838] text-white">
+      <div class="section-shell relative py-20 lg:py-28">
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm text-[#b9cfca]">
+          <a class="hover:text-white" href="/">Beranda</a>
+          <span class="px-2">/</span>
+          <span class="text-white">{meta.label}</span>
+        </nav>
+        <p class="eyebrow !text-[#f0c272]">Panduan lengkap</p>
+        <h1 class="mt-4 font-[Georgia] text-[clamp(2.4rem,6vw,5rem)] leading-[.95] tracking-[-.04em]">{meta.title}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-[#dcebe6]">{meta.blurb}</p>
+      </div>
+    </section>
+
+    <section class="py-20">
+      <div class="section-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {topics.map((t) => (
+          <a href={topicUrl(t)} class="card p-7 transition hover:-translate-y-1">
+            <h2 class="text-xl font-bold">{t.title}</h2>
+            <p class="mt-4 text-sm leading-7 text-[#35504d]">{t.lead}</p>
+            <p class="mt-5 text-xs text-[#7fb6ab]">Diperbarui: {t.updated}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="section-shell text-sm text-[#7fb6ab]">
+        <p>Panduan independen Devil’s Tears Nusa Lembongan. Bukan situs pengelola dan tidak menjual tiket.</p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

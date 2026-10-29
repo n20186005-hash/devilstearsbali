@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import {
+  type TopicContent,
+  categoryMeta,
+  getTopic,
+  topicUrl,
+} from '../data/topics';
+
+interface Props {
+  topic: TopicContent;
+}
+
+const { topic } = Astro.props;
+const cat = categoryMeta(topic.category);
+
+const relatedTopics = (topic.related ?? [])
+  .map((slug) => getTopic(slug))
+  .filter((t): t is TopicContent => Boolean(t));
+
+const homeHref = '/';
+const catHref = `/${topic.category}/`;
+const selfHref = topicUrl(topic);
+
+const siteBase = Astro.site?.href.replace(/\/$/, '') ?? '';
+const abs = (p: string) => (siteBase ? `${siteBase}${p}` : p);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: abs(homeHref) },
+    { '@type': 'ListItem', position: 2, name: cat.label, item: abs(catHref) },
+    { '@type': 'ListItem', position: 3, name: topic.title, item: abs(selfHref) },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: topic.faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<BaseLayout title={topic.metaTitle} description={topic.metaDescription}>
+  <SiteHeader />
+  <main id="konten">
+    <section class="relative overflow-hidden bg-[#0a3838] text-white">
+      <div class="section-shell relative py-20 lg:py-28">
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm text-[#b9cfca]">
+          <a class="hover:text-white" href={homeHref}>Beranda</a>
+          <span class="px-2">/</span>
+          <a class="hover:text-white" href={catHref}>{cat.label}</a>
+          <span class="px-2">/</span>
+          <span class="text-white">{topic.title}</span>
+        </nav>
+        <p class="eyebrow !text-[#f0c272]">{cat.label}</p>
+        <h1 class="mt-4 font-[Georgia] text-[clamp(2.4rem,6vw,5rem)] leading-[.95] tracking-[-.04em]">{topic.title}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-[#dcebe6]">{topic.lead}</p>
+        <p class="mt-6 text-xs text-[#7fb6ab]">Diperbarui: {topic.updated}</p>
+      </div>
+    </section>
+
+    {topic.facts && topic.facts.length > 0 && (
+      <section class="bg-[#f3ead8] py-6">
+        <div class="section-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {topic.facts.map((f) => (
+            <div>
+              <b>{f.label}</b>
+              <p>{f.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="py-20">
+      <div class="section-shell grid gap-12">
+        {topic.sections.map((s) => (
+          <div id={s.id}>
+            <h2 class="section-title">{s.heading}</h2>
+            {s.paragraphs && (
+              <div class="prose-copy mt-6">
+                {s.paragraphs.map((p) => <p>{p}</p>)}
+              </div>
+            )}
+            {s.bullets && (
+              <ul class="mt-6 space-y-2 leading-8 text-[#35504d] list-disc pl-6">
+                {s.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            )}
+            {s.callout && (
+              <p class:list={[
+                'mt-6 rounded-2xl p-5 text-sm leading-7',
+                s.callout.tone === 'warn' ? 'bg-[#fbeae3] text-[#7a2f1c]' : 'bg-[#e1eee9] text-[#1d4a45]',
+              ]}>
+                {s.callout.text}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {relatedTopics.length > 0 && (
+      <section class="bg-[#e1eee9] py-20">
+        <div class="section-shell">
+          <p class="eyebrow">Baca juga</p>
+          <h2 class="section-title mt-4">Panduan terkait</h2>
+          <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedTopics.map((r) => (
+              <a href={topicUrl(r)} class="card p-6 transition hover:-translate-y-1">
+                <p class="text-xs font-bold uppercase tracking-[.14em] text-[#146b68]">{categoryMeta(r.category).label}</p>
+                <h3 class="mt-3 text-lg font-bold">{r.title}</h3>
+                <p class="mt-3 text-sm leading-7 text-[#35504d]">{r.lead}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {topic.faqs.length > 0 && (
+      <section id="faq" class="bg-[#f3ead8] py-20">
+        <div class="section-shell grid gap-10 lg:grid-cols-[.65fr_1.35fr]">
+          <div>
+            <p class="eyebrow">Tanya jawab</p>
+            <h2 class="section-title mt-4">{topic.title}</h2>
+          </div>
+          <div class="space-y-4">
+            {topic.faqs.map(({ q, a }) => (
+              <details class="card p-6">
+                <summary class="cursor-pointer font-bold">{q}</summary>
+                <p class="mt-4 leading-8">{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="py-16">
+      <div class="section-shell text-sm text-[#7fb6ab]">
+        <p>Panduan independen Devil’s Tears Nusa Lembongan. Bukan situs pengelola dan tidak menjual tiket. Konfirmasikan akses, biaya dan layanan kepada pihak berwenang sebelum berkunjung.</p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+</BaseLayout>
